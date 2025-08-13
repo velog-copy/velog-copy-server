@@ -25,10 +25,16 @@ jobs:
             app: python@3.12
             options:
               ports: "8000"
-              start: uvicorn main:app
-              env: []
+              start: uvicorn main:app --host=0.0.0.0
+              env:
+                - name: DB_ADRESS
+                  value: svc.sel5.cloudtype.app
+                - name: DB_PORT
+                  value: "30384"
+                - name: DB_PASSWORD
+                  value: command@46
               buildenv: []
-              install: pip install fastapi uvicorn
+              install: pip install fastapi uvicorn pymysql python-multipart
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
