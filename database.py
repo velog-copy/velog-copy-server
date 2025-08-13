@@ -2,8 +2,11 @@ import pymysql
 from contextlib import contextmanager
 import os
 
-# from dotenv import load_dotenv
-# load_dotenv("./.env")
+try:
+    from dotenv import load_dotenv
+    load_dotenv("./.env")
+except:
+    pass
 
 DB_CONFIG = {
     "host": os.getenv("DB_ADRESS"),
@@ -12,7 +15,8 @@ DB_CONFIG = {
     "password": os.getenv("DB_PASSWORD"),
     "db": "velog",
     "charset": "utf8mb4",
-    "autocommit": False
+    "autocommit": False,
+    "cursorclass": pymysql.cursors.DictCursor
 }
 
 @contextmanager

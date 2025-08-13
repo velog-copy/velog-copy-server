@@ -2,6 +2,7 @@ from datetime import datetime
 from pydantic import BaseModel
 
 class PostPreview(BaseModel):
+    postid: int
     post_url: str
     post_title: str
     post_title_image_url: str
