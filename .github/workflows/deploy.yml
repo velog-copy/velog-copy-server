@@ -21,12 +21,15 @@ jobs:
           project: leebadagyumin0129/velog-copy
           stage: main
           yaml: |
-            name: database
-            app: mariadb@10.4
+            name: velog-copy-server
+            app: python@3.12
             options:
-              rootpassword: command@46
+              ports: "8000"
+              start: uvicorn main:app
+              env: []
+              buildenv: []
+              install: pip install fastapi uvicorn
             context:
-              preset: mariadb
               git:
                 url: git@github.com:${{ github.repository }}.git
                 ref: ${{ github.ref }}
