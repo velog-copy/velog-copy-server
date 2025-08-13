@@ -8,7 +8,7 @@ router = APIRouter(prefix="/resources", tags=["resources"])
 
 @router.get("/image/{media_id}")
 def read_image(media_id: int, db=Depends(get_db)):
-    content = get_image(db, media_id)
+    content = get_image(db, media_id)["image"]
 
     return StreamingResponse(io.BytesIO(content), media_type="image/jpeg")
 
