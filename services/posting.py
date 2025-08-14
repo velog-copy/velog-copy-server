@@ -37,7 +37,7 @@ def get_posting_preview_list(bunch: int, db: sql.cursors.DictCursor) -> List[R_P
         like_count
         
         from posting
-        order by posting_id
+        order by posting_datetime
         limit 20 OFFSET %s;
         """,
         bunch * 20
@@ -88,3 +88,23 @@ def get_posting(posting_id: int, db: sql.cursors.DictCursor) -> R_Posting | None
     
 def remove_posting(posting_id: int, db: sql.cursors.DictCursor):
     db.execute("delete from posting where posting_id = %s", posting_id)
+
+def change_posting(posting_id: int, put_data: R_RegistingPosting, db: sql.cursors.DictCursor):
+    db.execute(
+        """
+        update posting  
+        set 
+        posting_title = %s,
+        posting_header_image_id = %s,
+        posting_preview = %s,
+        content = %s
+        where posting_id = %s
+        """,
+        (
+            put_data.posting_title,
+            put_data.posting_header_image_id,
+            put_data.posting_preview,
+            put_data.content,
+            posting_id
+        )
+    )

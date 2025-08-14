@@ -2,6 +2,7 @@ from PIL import Image, UnidentifiedImageError
 from models.resources import T_image
 import pymysql as sql
 from typing import BinaryIO
+from time import time
 import io
 
 
@@ -28,7 +29,7 @@ def register_image(file: BinaryIO, db: sql.cursors.DictCursor) -> int:
     image.convert("RGB").save(temp_file, format="JPEG", quality=90, exif=b"")
     image_data = temp_file.getvalue()
     
-    db.execute("insert into images (image_id, change_id, image_data) values (%s, %s, %s);", (None, 0, image_data))
+    db.execute("insert into images (image_id, change_id, image_data) values (%s, %s, %s);", (None, int(time()), image_data))
     image_id = db.lastrowid
 
     return image_id
