@@ -12,14 +12,23 @@ def create_posting(posting: R_RegistingPosting, db=Depends(get_db)):
     return {"posting_id": posting_id}
 
 @router.get("/")
-def read_posting(bunch: int | None = None, posting_id: int | None = None, db=Depends(get_db)):
-    if posting_id is None:
-        if bunch is None or bunch < 0: bunch = 0
-        posting_preview_list = get_posting_preview_list(bunch, db)
-        return posting_preview_list
-    elif not posting_id is None:
-        posting = get_posting(posting_id, db)
-        if posting is None: return Response(status_code=404)
-        return posting
+def read_posting(bunch: int = 0, db=Depends(get_db)):
+    if bunch < 0:
+        bunch = 0
 
-    return Response(status_code=400)
+    posting_preview_list = get_posting_preview_list(bunch, db)
+
+    return posting_preview_list
+    
+
+@router.get("/{posting_id}")
+def read_posting(posting_id: int, db=Depends(get_db)):
+    posting = get_posting(posting_id, db)
+
+    if posting is None:
+        return Response(status_code=404)
+    
+    return posting
+
+@router.delete("/{posting_id}")
+def read_posting(posting_id: int, db=Depends(get_db)):
