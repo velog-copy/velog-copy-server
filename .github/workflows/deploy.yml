@@ -32,7 +32,7 @@ jobs:
                 - name: DB_PORT
                   value: "30384"
                 - name: DB_PASSWORD
-                  value: command@46
+                  value: velogcopy0069
               buildenv: []
               install: pip install fastapi uvicorn pymysql python-multipart pillow
             context:
