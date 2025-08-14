@@ -6,6 +6,15 @@ T: table
 R: response | request
 """
 
+class R_Posting(BaseModel):
+    posting_title: str
+    posting_header_image_url: str
+    posting_preview: str
+    posting_datetime: datetime
+    comment_count: int
+    like_count: int
+    content: str
+
 class R_PostingPreview(BaseModel):
     posting_id: int
     posting_url: str
@@ -16,16 +25,7 @@ class R_PostingPreview(BaseModel):
     comment_count: int
     like_count: int
 
-class T_PostingPreview(BaseModel):
-    posting_id: int
-    posting_title: str
-    posting_header_image_id: str
-    posting_preview: str
-    posting_datetime: datetime
-    comment_count: int
-    like_count: int
-
-class R_posting(BaseModel):
+class R_RegistingPosting(BaseModel):
     posting_title: str
     posting_header_image_id: int | None
     posting_preview: str
