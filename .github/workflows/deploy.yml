@@ -34,7 +34,7 @@ jobs:
                 - name: DB_PASSWORD
                   value: command@46
               buildenv: []
-              install: pip install fastapi uvicorn pymysql python-multipart
+              install: pip install fastapi uvicorn pymysql python-multipart pillow
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
