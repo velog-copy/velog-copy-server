@@ -30,7 +30,7 @@ jobs:
                 - name: DB_ADRESS
                   value: svc.sel5.cloudtype.app
                 - name: DB_PORT
-                  value: "30384"
+                  value: "32336"
                 - name: DB_PASSWORD
                   value: velogcopy0069
               buildenv: []
