@@ -28,11 +28,11 @@ jobs:
               start: uvicorn main:app --host=0.0.0.0
               env:
                 - name: DB_ADRESS
-                  value: svc.sel5.cloudtype.app
+                  value: ${{ secrets.DB_ADRESS }}
                 - name: DB_PORT
-                  value: "32336"
+                  value: ${{ secrets.DB_PORT }}
                 - name: DB_PASSWORD
-                  value: velogcopy0069
+                  value: ${{ secrets.DB_PASSWORD }}
               buildenv: []
               install: pip install fastapi uvicorn pymysql python-multipart pillow
             context:
