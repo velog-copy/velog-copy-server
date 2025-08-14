@@ -86,3 +86,5 @@ def get_posting(posting_id: int, db: sql.cursors.DictCursor) -> R_Posting | None
 
     return result
     
+def remove_posting(posting_id: int, db: sql.cursors.DictCursor):
+    db.execute("delete from posting where posting_id = %s", posting_id)

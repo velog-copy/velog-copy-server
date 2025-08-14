@@ -37,7 +37,6 @@ def read_image(image_id: int, request: Request, db=Depends(get_db)):
 def delete_image(image_id: int, db=Depends(get_db)):
     try:
         remove_image(image_id, db)
+        return Response(status_code=200)
     except:
         return Response(status_code=409)
-
-    return Response(status_code=200)

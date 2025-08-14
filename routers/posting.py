@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request, Response, Depends
 from database import get_db
 from models.posting import R_RegistingPosting
-from services.posting import register_posting, get_posting_preview_list, get_posting
+from services.posting import register_posting, get_posting_preview_list, get_posting, remove_posting
 
 router = APIRouter(prefix="/posting", tags=["posting"])
 
@@ -31,4 +31,9 @@ def read_posting(posting_id: int, db=Depends(get_db)):
     return posting
 
 @router.delete("/{posting_id}")
-def read_posting(posting_id: int, db=Depends(get_db)):
+def delete_posting(posting_id: int, db=Depends(get_db)):
+    try:
+        remove_posting(posting_id, db)
+        return Response(status_code=200)
+    except:
+        return Response(status_code=409)
