@@ -9,7 +9,7 @@ R: response | request
 class R_PostingPreview(BaseModel):
     posting_id: int
     posting_title: str
-    posting_header_image_id: int
+    posting_header_image_id: int | None
     posting_preview: str
     posting_datetime: datetime
     comment_count: int
