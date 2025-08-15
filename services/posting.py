@@ -1,17 +1,25 @@
-from models.posting import R_RegistingPosting, R_PostingPreview, R_Posting
+from models.posting import R_PostingPreview, R_Posting, R_RegistingPosting
 import pymysql as sql
 from typing import List
 
+def get_posting_preview_list(bunch: int, db: sql.cursors.DictCursor) -> List[R_PostingPreview]:
+    db.execute(
+        "SELECT posting_id, posting_title, posting_header_image_id, posting_preview, posting_datetime, comment_count, like_count " \
+        "FROM posting " \
+        "ORDER BY posting_datetime " \
+        "LIMIT 20 OFFSET %s;",
+        bunch * 20
+    )
+
+    datas = db.fetchall()
+    result = [R_PostingPreview(**i) for i in datas] 
+
+    return result
+
 def register_posting(posting: R_RegistingPosting, db: sql.cursors.DictCursor) -> int:
     db.execute(
-        """
-        insert into posting (
-            posting_title,
-            posting_header_image_id,
-            posting_preview,
-            content
-        )
-        values (%s, %s, %s, %s)""",
+        "INSERT INTO posting (posting_title, posting_header_image_id, posting_preview, content) " \
+        "VALUES (%s, %s, %s, %s)",
         (
             posting.posting_title,
             posting.posting_header_image_id,
@@ -24,82 +32,26 @@ def register_posting(posting: R_RegistingPosting, db: sql.cursors.DictCursor) ->
 
     return posting_id
 
-def get_posting_preview_list(bunch: int, db: sql.cursors.DictCursor) -> List[R_PostingPreview]:
-    db.execute(
-        """
-        select 
-        posting_id,
-        posting_title,
-        posting_header_image_id,
-        posting_preview,
-        posting_datetime,
-        comment_count,
-        like_count
-        
-        from posting
-        order by posting_datetime
-        limit 20 OFFSET %s;
-        """,
-        bunch * 20
-    )
-
-    datas = db.fetchall()
-    result = [
-        R_PostingPreview(
-            posting_id=i["posting_id"],
-            posting_url=f"/posting?posting_id={i["posting_id"]}",
-            posting_title=i["posting_title"],
-            posting_header_image_url=f"/resources/image/{i["posting_header_image_id"]}",
-            posting_preview=i["posting_preview"],
-            posting_datetime=i["posting_datetime"],
-            comment_count=i["comment_count"],
-            like_count=i["like_count"]
-        ) for i in datas
-    ]
-
-    return result
-
 def get_posting(posting_id: int, db: sql.cursors.DictCursor) -> R_Posting | None:
     db.execute(
-        """
-        select
-        posting_title,
-        posting_header_image_id,
-        posting_preview,
-        posting_datetime,
-        comment_count,
-        like_count,
-        content
-        from posting
-        where posting_id = %s;
-        """,
+        "SELECT * FROM posting WHERE posting_id = %s;",
         posting_id
     )
+
     data = db.fetchone()
 
-    if data is None: return None
-
-    data["posting_header_image_url"] = f"/resources/image/{data["posting_header_image_id"]}"
-    del data["posting_header_image_id"]
+    if data is None:
+        return None
 
     result = R_Posting(**data)
 
     return result
     
-def remove_posting(posting_id: int, db: sql.cursors.DictCursor):
-    db.execute("delete from posting where posting_id = %s", posting_id)
-
-def change_posting(posting_id: int, put_data: R_RegistingPosting, db: sql.cursors.DictCursor):
+def change_posting(posting_id: int, put_data: R_RegistingPosting, db: sql.cursors.DictCursor) -> None:
     db.execute(
-        """
-        update posting  
-        set 
-        posting_title = %s,
-        posting_header_image_id = %s,
-        posting_preview = %s,
-        content = %s
-        where posting_id = %s
-        """,
+        "UPDATE posting " \
+        "SET posting_title = %s, posting_header_image_id = %s, posting_preview = %s, content = %s " \
+        "WHERE posting_id = %s;",
         (
             put_data.posting_title,
             put_data.posting_header_image_id,
@@ -108,3 +60,6 @@ def change_posting(posting_id: int, put_data: R_RegistingPosting, db: sql.cursor
             posting_id
         )
     )
+
+def remove_posting(posting_id: int, db: sql.cursors.DictCursor) -> None:
+    db.execute("DELETE FROM posting WHERE posting_id = %s", posting_id)
