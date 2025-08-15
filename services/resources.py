@@ -5,7 +5,6 @@ from typing import BinaryIO
 from time import time
 import io
 
-
 def get_image(image_id: int, db: sql.cursors.DictCursor) -> T_image | None:
     db.execute("select * from images where image_id = %s", (image_id))
     row = db.fetchone()

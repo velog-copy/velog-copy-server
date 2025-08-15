@@ -1,8 +1,7 @@
 from fastapi import APIRouter, Request, Response, UploadFile, File, Depends
 from fastapi.responses import StreamingResponse
 from database import get_db
-from services.resources import register_image, get_image, remove_image
-from models.resources import T_image
+from services.resources import get_image, register_image, remove_image
 import io
 
 router = APIRouter(prefix="/resources", tags=["resources"])
@@ -18,7 +17,7 @@ def create_image(file: UploadFile = File(...), db=Depends(get_db)):
 
 @router.get("/image/{image_id}")
 def read_image(image_id: int, request: Request, db=Depends(get_db)):
-    data: T_image | None = get_image(image_id, db)
+    data = get_image(image_id, db)
 
     if data is None:
         return Response(status_code=404)
