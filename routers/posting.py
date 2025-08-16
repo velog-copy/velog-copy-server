@@ -18,6 +18,9 @@ def read_posting(bunch: int = 0, db=Depends(get_db)):
 def create_posting(posting: R_RegistingPosting, db=Depends(get_db)):
     posting_id = register_posting(posting, db)
 
+    if posting_id is None:
+        return Response(status_code=409)
+
     return {"posting_id": posting_id}
 
 @router.get("/{posting_id}")

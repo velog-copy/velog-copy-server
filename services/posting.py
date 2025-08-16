@@ -16,17 +16,21 @@ def get_posting_preview_list(bunch: int, db: sql.cursors.DictCursor) -> List[R_P
 
     return result
 
-def register_posting(posting: R_RegistingPosting, db: sql.cursors.DictCursor) -> int:
-    db.execute(
-        "INSERT INTO posting (posting_title, posting_header_image_id, posting_preview, content) " \
-        "VALUES (%s, %s, %s, %s)",
-        (
-            posting.posting_title,
-            posting.posting_header_image_id,
-            posting.posting_preview,
-            posting.content
+def register_posting(posting: R_RegistingPosting, db: sql.cursors.DictCursor) -> int | None:
+    
+    try: 
+        db.execute(
+            "INSERT INTO posting (posting_title, posting_header_image_id, posting_preview, content) " \
+            "VALUES (%s, %s, %s, %s)",
+            (
+                posting.posting_title,
+                posting.posting_header_image_id,
+                posting.posting_preview,
+                posting.content
+            )
         )
-    )
+    except sql.err.IntegrityError:
+        return None
 
     posting_id = db.lastrowid
 
