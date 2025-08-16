@@ -39,8 +39,10 @@ jobs:
                   value: ${{ secrets.GMAIL_PASSWORD }}
                 - name: FRONTEND_ADRESS
                   value: ${{ secrets.FRONTEND_ADRESS }}
+                - name: ACCOUNT_AUTH_KEY
+                  value: ${{ secrets.ACCOUNT_AUTH_KEY }}
               buildenv: []
-              install: pip install fastapi uvicorn pymysql python-multipart pillow
+              install: pip install fastapi uvicorn pymysql python-multipart pillow cryptography
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
