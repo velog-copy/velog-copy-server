@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routers import posting, resources
+from routers import posting, resources, account
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -13,4 +13,5 @@ app.add_middleware(
 )
 
 app.include_router(posting.router)
+app.include_router(account.router)
 app.include_router(resources.router)
