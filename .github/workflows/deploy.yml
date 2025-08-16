@@ -33,6 +33,12 @@ jobs:
                   value: ${{ secrets.DB_PORT }}
                 - name: DB_PASSWORD
                   value: ${{ secrets.DB_PASSWORD }}
+                - name: GMAIL_ADRESS
+                  value: ${{ secrets.GMAIL_ADRESS }}
+                - name: GMAIL_PASSWORD
+                  value: ${{ secrets.GMAIL_PASSWORD }}
+                - name: FRONTEND_ADRESS
+                  value: ${{ secrets.FRONTEND_ADRESS }}
               buildenv: []
               install: pip install fastapi uvicorn pymysql python-multipart pillow
             context:
