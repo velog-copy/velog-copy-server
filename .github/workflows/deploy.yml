@@ -41,6 +41,8 @@ jobs:
                   value: ${{ secrets.FRONTEND_ADRESS }}
                 - name: ACCOUNT_AUTH_KEY
                   value: ${{ secrets.ACCOUNT_AUTH_KEY }}
+                - name: JWT_KEY
+                  value: ${{ secrets.JWT_KEY }}
               buildenv: []
               install: pip install fastapi uvicorn pymysql python-multipart pillow cryptography
             context:

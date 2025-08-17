@@ -3,6 +3,8 @@ from cryptography.hazmat.backends import default_backend
 import os
 from base64 import b64encode as e64, b64decode as d64
 import json
+import jwt
+
 
 try:
     from dotenv import load_dotenv
@@ -13,8 +15,8 @@ except:
 ACCOUNT_AUTH_KEY = d64(os.getenv("ACCOUNT_AUTH_KEY"))
 JWT_KEY = os.getenv("JWT_KEY")
 
-def create_auth_code(auth_data: dict) -> str:
-    plaintext = json.dumps(auth_data, ensure_ascii=False)
+def create_access_token(access_data: dict) -> str:
+    plaintext = json.dumps(access_data, ensure_ascii=False)
 
     nonce = os.urandom(16)
     algorithm = algorithms.ChaCha20(ACCOUNT_AUTH_KEY, nonce)
@@ -23,13 +25,13 @@ def create_auth_code(auth_data: dict) -> str:
 
     ciphertext = encryptor.update(plaintext.encode('utf-8'))
     
-    auth_code = e64(nonce + ciphertext).decode("utf-8")
-    auth_code = auth_code.replace("=", "%3D")
+    access_toekn = e64(nonce + ciphertext).decode("utf-8")
+    access_toekn = access_toekn.replace("=", "%3D")
 
-    return auth_code
+    return access_toekn
 
-def decrypt_auth_code(auth_data: str) -> dict | None:
-    ciphertext = d64(auth_data)
+def decrypt_access_token(access_token: str) -> dict | None:
+    ciphertext = d64(access_token)
 
     nonce = ciphertext[:16]
     algorithm = algorithms.ChaCha20(ACCOUNT_AUTH_KEY, nonce)
@@ -37,9 +39,13 @@ def decrypt_auth_code(auth_data: str) -> dict | None:
     decryptor = cipher.decryptor()
     
     try:
-        plaintext = decryptor.update(ciphertext[16:]).decode("utf-8")
-        result = json.loads(plaintext)
-        return result
+        access_json_data = decryptor.update(ciphertext[16:]).decode("utf-8")
+        access_data = json.loads(access_json_data)
+        return access_data
     except:
         return None
     
+def create_token(data: dict) -> str:
+    token = jwt.encode(data, JWT_KEY, "HS256")
+
+    return token
