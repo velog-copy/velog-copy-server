@@ -44,7 +44,7 @@ jobs:
                 - name: JWT_KEY
                   value: ${{ secrets.JWT_KEY }}
               buildenv: []
-              install: pip install fastapi uvicorn pymysql python-multipart pillow cryptography
+              install: pip install fastapi uvicorn pymysql python-multipart pillow cryptography PyJWT
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
