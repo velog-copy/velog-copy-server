@@ -13,19 +13,15 @@ def send_access_mail(email: str, db: sql.cursors.DictCursor):
             "email": email,
             "creation_time": int(time())
         }
-
-        auth_code = create_auth_code(auth_data)
-
-        if not send_mail(email, "회원가입", auth_code):
-            raise
-
+        mail_type = "회원가입"
     else:
         auth_data = {
             "user_id": user_id,
             "creation_time": int(time())
         }
-        
-        auth_code = create_auth_code(auth_data)
+        mail_type = "로그인"
 
-        if not send_mail(email, "로그인", auth_code):
-            raise
+    auth_code = create_auth_code(auth_data)
+
+    if not send_mail(email, mail_type, auth_code):
+        raise
