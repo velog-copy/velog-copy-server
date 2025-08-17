@@ -1,7 +1,7 @@
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms
 from cryptography.hazmat.backends import default_backend
 import os
-from base64 import b64encode as e64, b64decode as d64
+from base64 import urlsafe_b64encode as e64, urlsafe_b64decode as d64
 import json
 import jwt
 
@@ -25,10 +25,9 @@ def create_access_token(access_data: dict) -> str:
 
     ciphertext = encryptor.update(plaintext.encode('utf-8'))
     
-    access_toekn = e64(nonce + ciphertext).decode("utf-8")
-    access_toekn = access_toekn.replace("=", "%3D")
+    access_token = e64(nonce + ciphertext).decode("utf-8")
 
-    return access_toekn
+    return access_token
 
 def decrypt_access_token(access_token: str) -> dict | None:
     ciphertext = d64(access_token)

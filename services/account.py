@@ -29,7 +29,7 @@ def send_access_mail(email: str, db: sql.cursors.DictCursor):
 
 def signup(signup_info: R_signup, db: sql.cursors.DictCursor) -> int | None:
     access_token = decrypt_access_token(signup_info.access_token)
-    
+
     if access_token is None or access_token["exp"] < time():
         return None
 
