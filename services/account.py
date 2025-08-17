@@ -1,5 +1,5 @@
 from services.mail import send_mail
-from services.security import create_access_token, decrypt_access_token, create_token
+from services.security import create_access_token, decrypt_access_token, create_token, decode_token
 import pymysql as sql
 from time import time
 from models.account import R_signup
@@ -17,7 +17,7 @@ def send_access_mail(email: str, db: sql.cursors.DictCursor):
         mail_type = "회원가입"
     else:
         auth_data = {
-            "user_id": user_id,
+            "user_id": user_id["user_id"],
             "exp": int(time()) + 24 * 60 * 60 # 1일
         }
         mail_type = "로그인"

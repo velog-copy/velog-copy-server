@@ -9,7 +9,6 @@ router = APIRouter(prefix="/account", tags=["account"])
 @router.post("/access")
 def access_account(email: R_EmailAdress, db=Depends(get_db)):
     mail_pattern = r"^[a-zA-Z0-9.-_]+@[a-z]+\.[a-z]{2,}$"
-    print(re.match(mail_pattern, email.email_adress))
     if re.match(mail_pattern, email.email_adress) is None:
         return Response(status_code=400)
     
@@ -28,7 +27,7 @@ def read_login(access_token: str, db=Depends(get_db)):
     
     login_token = create_login_token(user_id)
     response = Response()
-    response.set_cookie("login", login_token)
+    response.set_cookie("login_token", login_token)
 
     return response
     
@@ -41,6 +40,6 @@ def create_account(signup_info: R_signup, db=Depends(get_db)):
     
     login_token = create_login_token(new_user_id)
     response = Response()
-    response.set_cookie("login", login_token)
+    response.set_cookie("login_token", login_token)
 
     return response
