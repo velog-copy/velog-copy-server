@@ -1,12 +1,13 @@
-from datetime import datetime
 from pydantic import BaseModel
+from models.account import T_UserPreview
+from datetime import datetime
 
 """
 T: table
 R: response | request
 """
 
-class R_PostingPreview(BaseModel):
+class R_PostingPreview(T_UserPreview):
     posting_id: int
     posting_title: str
     posting_header_image_id: int | None

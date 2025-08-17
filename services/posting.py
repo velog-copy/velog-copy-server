@@ -4,8 +4,9 @@ from typing import List
 
 def get_posting_preview_list(bunch: int, db: sql.cursors.DictCursor) -> List[R_PostingPreview]:
     db.execute(
-        "SELECT posting_id, posting_title, posting_header_image_id, posting_preview, posting_datetime, comment_count, like_count " \
+        "SELECT posting_id, posting_title, posting_header_image_id, posting_preview, posting_datetime, comment_count, like_count, user_id, user_profile_image_id " \
         "FROM posting " \
+        "NATURAL JOIN users " \
         "ORDER BY posting_datetime " \
         "LIMIT 20 OFFSET %s;",
         bunch * 20

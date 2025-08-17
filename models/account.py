@@ -8,3 +8,7 @@ class R_signup(BaseModel):
     user_name: str
     user_tag: str
     introduce: str
+
+class T_UserPreview(BaseModel):
+    user_id: int
+    user_profile_image_id: int
