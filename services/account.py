@@ -56,6 +56,16 @@ def signup(signup_info: R_signup, db: sql.cursors.DictCursor) -> int | None:
         return user_id
     except Exception as e:
         return None
+    
+def login(access_token: str) -> int | None:
+    access_token = decrypt_access_token(access_token)
+
+    if access_token is None or access_token["exp"] < time():
+        return None
+    
+    user_id = access_token["user_id"]
+
+    return user_id
 
 def create_login_token(user_id: int) -> str:
     payload = {
