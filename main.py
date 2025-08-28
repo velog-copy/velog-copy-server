@@ -12,6 +12,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(posting.router)
 app.include_router(account.router)
+app.include_router(posting.router)
 app.include_router(resources.router)
