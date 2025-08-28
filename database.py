@@ -13,7 +13,7 @@ DB_CONFIG = {
     "port": int(os.getenv("DB_PORT")),
     "user": "root",
     "password": os.getenv("DB_PASSWORD"),
-    "db": "velog",
+    "db": "temp",
     "charset": "utf8mb4",
     "autocommit": False,
     "cursorclass": pymysql.cursors.DictCursor
