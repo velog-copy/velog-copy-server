@@ -26,6 +26,7 @@ def login(access_token, db=Depends(get_db)):
         return Response(status_code=409)
     
     login_token = create_login_token(user_id)
+
     response = Response()
     response.set_cookie(
         key = "login",
@@ -48,6 +49,7 @@ def create_account(signup_info: J_signup_data, db=Depends(get_db)):
         return Response(status_code=409)
     
     login_token = create_login_token(user_id)
+    
     response = Response()
     response.set_cookie(
         key = "login",

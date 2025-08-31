@@ -45,6 +45,8 @@ def get_user_id(user_email: str, db: DictCursor) -> int | None:
     if user_id is None:
         return None
     
+    user_id = user_id["user_id"]
+    
     return user_id
 
 def register_new_user(user_email: str, signup_info: J_signup_data, db: DictCursor) -> int | None:
