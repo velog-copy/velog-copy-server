@@ -1,3 +1,4 @@
+from fastapi import Request, HTTPException
 from pymysql.cursors import DictCursor
 import re
 from time import time
@@ -26,7 +27,7 @@ def send_magic_link(user_email: str, db: DictCursor) -> bool:
 
     return is_mail_sended
 
-def verify_token(access_token: str) -> dict | None:
+def verify_access_token(access_token: str) -> dict | None:
     access_data = decode_access_token(access_token)
 
     if access_data is None:
@@ -72,3 +73,14 @@ def create_login_token(user_id: int):
     token = create_jwt(payload)
 
     return token
+
+def get_client_info(request: Request) -> int:
+    login_token = request.cookies.get("login")
+    login_data = decode_jwt(login_token)
+    
+    if login_data is None or not verify_exp(login_data):
+        raise HTTPException(status_code=401)
+
+    user_id = login_data["user_id"]
+
+    return user_id

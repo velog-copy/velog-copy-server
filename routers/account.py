@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request, Response, Depends
 from database import get_db
 from models.account import J_email_adress, J_signup_data
-from services.account import verify_email_adress, send_magic_link, verify_token, get_user_id, create_login_token, register_new_user
+from services.account import verify_email_adress, send_magic_link, verify_access_token, get_user_id, create_login_token, register_new_user
 
 router = APIRouter(prefix="/account", tags=["account"])
 
@@ -16,7 +16,7 @@ def access_account(email: J_email_adress, db=Depends(get_db)):
     
 @router.get("/login")
 def login(access_token, db=Depends(get_db)):
-    access_data = verify_token(access_token)
+    access_data = verify_access_token(access_token)
 
     if access_data is None:
         return Response(status_code=400)
@@ -32,7 +32,7 @@ def login(access_token, db=Depends(get_db)):
     
 @router.post("/signup")
 def create_account(signup_info: J_signup_data, db=Depends(get_db)):
-    access_data = verify_token(signup_info.access_token)
+    access_data = verify_access_token(signup_info.access_token)
 
     if access_data is None:
         return Response(status_code=400)
