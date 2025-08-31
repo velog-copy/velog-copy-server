@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routers import resources
+from routers import account, resources
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -12,4 +12,5 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(account.router)
 app.include_router(resources.router)

@@ -18,7 +18,7 @@ def save_image(image_data: ImageFile, db: DictCursor) -> None:
     image_data.convert("RGB").save(temp_file, format="JPEG", quality=90, exif=b"")
     image_content = temp_file.getvalue()
 
-    db.execute("insert into images (image_id, change_id, image_content) values (%s, %s, %s);", (None, int(time()), image_content))
+    db.execute("INSERT INTO images (image_id, change_id, image_content) VALUES (%s, %s, %s);", (None, int(time()), image_content))
     image_id = db.lastrowid
     
     return image_id

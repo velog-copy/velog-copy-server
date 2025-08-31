@@ -10,7 +10,8 @@ router = APIRouter(prefix="/resources", tags=["resources"])
 def register_new_image(image_file: UploadFile = File(...), db=Depends(get_db)):
     image_data = process_image(image_file.file)
 
-    if image_data is None: return Response(status_code=400)
+    if image_data is None:
+        return Response(status_code=400)
 
     image_id = save_image(image_data, db)
 
