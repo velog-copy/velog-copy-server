@@ -76,9 +76,10 @@ def create_login_token(user_id: int):
 
 def get_client_info(request: Request) -> int:
     login_token = request.cookies.get("login")
+    
     login_data = decode_jwt(login_token)
     
-    if login_data is None or not verify_exp(login_data):
+    if login_data is None:
         raise HTTPException(status_code=401)
 
     user_id = login_data["user_id"]

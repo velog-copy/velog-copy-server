@@ -48,8 +48,5 @@ def create_jwt(data: dict) -> str:
     return token
 
 def decode_jwt(login_token) -> dict | None:
-    try:
-        login_token = jwt.decode(login_token, JWT_KEY, "HS256")
-        return login_token
-    except:
-        return None
+    login_token = jwt.decode(login_token, JWT_KEY, "HS256")
+    return login_token

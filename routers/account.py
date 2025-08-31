@@ -27,7 +27,12 @@ def login(access_token, db=Depends(get_db)):
     
     login_token = create_login_token(user_id)
     response = Response()
-    response.set_cookie("login", login_token)
+    response.set_cookie(
+        key = "login",
+        value = login_token,
+        max_age = 7 * 24 * 60 * 60, # 일주일
+        httponly = True
+    )
     return response
     
 @router.post("/signup")
@@ -44,5 +49,10 @@ def create_account(signup_info: J_signup_data, db=Depends(get_db)):
     
     login_token = create_login_token(user_id)
     response = Response()
-    response.set_cookie("login", login_token)
+    response.set_cookie(
+        key = "login",
+        value = login_token,
+        max_age = 7 * 24 * 60 * 60, # 일주일
+        httponly = True
+    )
     return response

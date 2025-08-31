@@ -1,6 +1,7 @@
 from fastapi import FastAPI
-from routers import account, resources
 from fastapi.middleware.cors import CORSMiddleware
+from routers import account, posting, resources
+from middleware import exception_catcher
 
 app = FastAPI()
 
@@ -12,5 +13,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.middleware("http")(exception_catcher)
+
 app.include_router(account.router)
+app.include_router(posting.router)
 app.include_router(resources.router)
