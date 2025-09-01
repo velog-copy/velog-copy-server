@@ -39,7 +39,7 @@ jobs:
                   value: ${{ secrets.GMAIL_PASSWORD }}
                 - name: FRONTEND_ADRESS
                   value: ${{ secrets.FRONTEND_ADRESS }}
-                - name: ACCOUNT_AUTH_KEY
+                - name: ACCOUNT_ACCESS_TOKEN_KEY
                   value: ${{ secrets.ACCOUNT_ACCESS_TOKEN_KEY }}
                 - name: JWT_KEY
                   value: ${{ secrets.JWT_KEY }}
