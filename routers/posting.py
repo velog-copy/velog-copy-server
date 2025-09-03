@@ -7,7 +7,7 @@ from services.posting import get_posting_list, add_new_posting, get_posting, che
 router = APIRouter(prefix="/posting", tags=["posting"])
 
 @router.get("/")
-def read_postings(bunch: int, db=Depends(get_db)):
+def read_postings(bunch: int = 0, db=Depends(get_db)):
     if bunch < 0:
         bunch = 0
 
