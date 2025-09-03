@@ -14,7 +14,7 @@ def get_likes(user_id: int, db: DictCursor) -> list | None:
 def insert_likes(posting_id: int, user_id: int, db: DictCursor) -> bool:
     try:
         db.execute("INSERT INTO likes VALUES (%s, %s);", (posting_id, user_id))
-        db.execute("UPDATE posting SET likes_count = likes_count + 1 WHERE posting_id = %s;", posting_id)
+        db.execute("UPDATE postings SET likes_count = likes_count + 1 WHERE posting_id = %s;", posting_id)
         return True
     except:
         return False
@@ -22,7 +22,7 @@ def insert_likes(posting_id: int, user_id: int, db: DictCursor) -> bool:
 def delete_likes(posting_id: int, user_id: int, db: DictCursor) -> bool:
     try:
         db.execute("DELETE FROM likes WHERE posting_id = %s and user_id = %s;", (posting_id, user_id))
-        db.execute("UPDATE posting SET likes_count = likes_count - 1 WHERE posting_id = %s;", posting_id)
+        db.execute("UPDATE postings SET likes_count = likes_count - 1 WHERE posting_id = %s;", posting_id)
         return True
     except:
         return False
