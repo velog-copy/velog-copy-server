@@ -58,3 +58,9 @@ def create_account(signup_info: J_signup_data, db=Depends(get_db)):
         httponly = True
     )
     return response
+
+@router.get("/logout")
+def logout():
+    respnose = Response(status_code=200)
+    respnose.delete_cookie("login")
+    return respnose
