@@ -14,15 +14,16 @@ def get_comments(posting_id: int, db=Depends(get_db)):
 def make_new_comment(posting_id: int, comment_content: commet_DTO, user_id=Depends(get_client_info), db=Depends(get_db)):
     comment = comment_content.comment
     comment_id = make_comment(posting_id, user_id, comment, db)
-    if not comment_id is None:
-        return {"comment_id" : comment_id}
-    else:
+    if comment_id is None:
         return Response(status_code=409)
+    else:
+        return {"comment_id" : comment_id}
+        
     
 
-@router.delete("/{posting_id}")
-def remove_comment(posting_id: int, user_id=Depends(get_client_info), db=Depends(get_db)):
-    if delete_comment(posting_id, user_id, db):
+@router.delete("/{comment_id}")
+def remove_comment(comment_id: int, user_id=Depends(get_client_info), db=Depends(get_db)):
+    if delete_comment(comment_id, user_id, db):
         return Response(status_code=200)
     else:
         return Response(status_code=409)
