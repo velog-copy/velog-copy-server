@@ -4,7 +4,7 @@ from models.comment import commet_DTO
 from services.account import get_client_info
 from services.comment import make_comment, get_comment_list, delete_comment
 
-router = APIRouter(prefix="/comment")
+router = APIRouter(prefix="/comment", tags=["comment"])
 
 @router.get("/{posting_id}")
 def get_comments(posting_id: int, db=Depends(get_db)):
